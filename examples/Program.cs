@@ -15,18 +15,34 @@ namespace examples
 
         private static void TraceListenerExample()
         {
+            var myListener = new HttpEventCollectorTraceListener(
+                uri: new Uri("https://splunk-server:8088"),
+                token: "205A7CE0-24B6-44CD-9299-333E29BBBCF1");
+            myListener.AddLoggingFailureHandler((HttpEventCollectorException e) => {
+                Console.WriteLine("{0}", e);
+            });
             // Replace with your HEC token
-            string token = "1ff51387-405a-4566-9f6a-87bc3fb44424";
+            string token = "8f574673-11c7-40cb-b400-2e364efc1c33";
 
             // TraceListener
-            var trace = new TraceSource("demo-logger");
+            var trace = new TraceSource("Order");
             trace.Switch.Level = SourceLevels.All;
+            var url = "https://splunk-indexer-hec.internal.repay.ninja:8088/services/collec";
             var listener = new HttpEventCollectorTraceListener(
-                uri: new Uri("https://127.0.0.1:8088"),
+                uri: new Uri(url),
                 token: token,
                 batchSizeCount: 1);
+            bool isFalure = false;
+            listener.AddLoggingFailureHandler((HttpEventCollectorException e) =>
+            {
+                isFalure = true;
+                Console.WriteLine(e.Message);
+            });
             trace.Listeners.Add(listener);
-
+            if (isFalure)
+            {
+                
+            }
             // Send some events
             trace.TraceEvent(TraceEventType.Error, 0, "hello world 0");
             trace.TraceEvent(TraceEventType.Information, 1, "hello world 1");

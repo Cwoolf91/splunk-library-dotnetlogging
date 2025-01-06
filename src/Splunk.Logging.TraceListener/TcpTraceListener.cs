@@ -88,7 +88,7 @@ namespace Splunk.Logging
             // Note: not thread-safe, since the threading is handled by the TraceListener machinery that
             // invokes this method.
             if (NeedIndent) WriteIndent();
-            writer.Enqueue(message + Environment.NewLine);
+            writer.Enqueue(message + "\r\n");
         }
 
         public override void Close()

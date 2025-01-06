@@ -70,7 +70,7 @@ namespace Splunk.Logging
             // Note: not thread-safe, since the threading is handled by the TraceListener machinery that
             // invokes this method.
             if (NeedIndent) WriteIndent();
-            socket.Send(Encoding.UTF8.GetBytes(message + Environment.NewLine));
+            socket.Send(Encoding.UTF8.GetBytes(message + "\r\n"));
         }
 
         public override void Close()
