@@ -22,7 +22,7 @@ namespace examples
                 Console.WriteLine("{0}", e);
             });
             // Replace with your HEC token
-            string token = "8f574673-11c7-40cb-b400-2e364efc1c33";
+            string token = "";
 
             // TraceListener
             var trace = new TraceSource("Order");
